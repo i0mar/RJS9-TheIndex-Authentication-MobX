@@ -8,6 +8,8 @@ import Loading from "./Loading";
 import AuthorsList from "./AuthorsList";
 import AuthorDetail from "./AuthorDetail";
 import BookList from "./BookList";
+import LoginForm from "./forms/LoginForm";
+import SignupForm from "./forms/SignupForm";
 
 // Store
 import authorStore from "./stores/AuthorStore";
@@ -24,6 +26,8 @@ function App() {
           <Route path="/authors/:authorID" component={AuthorDetail} />
           <Route path="/authors/" component={AuthorsList} />
           <Route path="/books/:bookColor?" component={BookList} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/signup" component={SignupForm} />
         </Switch>
       );
     }
