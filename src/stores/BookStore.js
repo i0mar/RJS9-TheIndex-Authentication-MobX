@@ -1,9 +1,6 @@
 import { decorate, observable, computed } from "mobx";
 import axios from "axios";
-
-const instance = axios.create({
-  baseURL: "https://the-index-api.herokuapp.com"
-});
+import instance from "./instance";
 
 class BookStore {
   books = [];
@@ -12,7 +9,7 @@ class BookStore {
 
   fetchBooks = async () => {
     try {
-      const res = await instance.get("/api/books/");
+      const res = await instance.get("/books/list");
       this.books = res.data;
       this.loading = false;
     } catch (error) {
@@ -26,7 +23,7 @@ class BookStore {
       authors: [author.id]
     };
     try {
-      const res = await instance.post("/api/books/", newBook);
+      const res = await instance.post("/books/", newBook);
       const book = res.data;
       this.books.push(book);
       author.books.push(book.id);

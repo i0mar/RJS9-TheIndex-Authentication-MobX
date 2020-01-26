@@ -1,9 +1,6 @@
 import { decorate, observable, computed } from "mobx";
 import axios from "axios";
-
-const instance = axios.create({
-  baseURL: "https://the-index-api.herokuapp.com"
-});
+import instance from "./instance";
 
 class AuthorStore {
   authors = [];
@@ -13,7 +10,7 @@ class AuthorStore {
 
   fetchAuthors = async () => {
     try {
-      const res = await instance.get("/api/authors/");
+      const res = await instance.get("/authors/list");
       this.authors = res.data;
       this.loading = false;
     } catch (err) {
@@ -23,7 +20,7 @@ class AuthorStore {
 
   addAuthor = async newAuthor => {
     try {
-      const res = await instance.post("/api/authors/", newAuthor);
+      const res = await instance.post("/authors/", newAuthor);
       this.authors.unshift(res.data);
       this.statusMessage = "Success";
     } catch (err) {
@@ -39,8 +36,13 @@ class AuthorStore {
     );
   }
 
-  getAuthorById = id => {
-    return this.authors.find(author => +author.id === +id);
+  getAuthorById = async (id) => {
+    try {
+      const res = await instance.get(`/authors/${id}/`);
+      return res.data;
+    } catch (err) {
+      console.error(err.response);
+    }
   };
 }
 
